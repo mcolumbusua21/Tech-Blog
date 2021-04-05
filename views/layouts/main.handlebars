@@ -4,20 +4,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Registry</title>
+  <title>Fantasy Football Blog</title>
   <link rel="stylesheet" href="/css/jass.css">
 </head>
 
 <body>
   <header class="display-flex justify-space-between align-center p-2">
     <h1>
-      User Registry
+     Fantasy Football
     </h1>
     {{#if logged_in}}
     <nav>
-      <button class="btn" id="logout">logout</button>
+      <button class="btn" id="logout">Log Out</button>
     </nav>
     {{/if}}
+    <h3>
+      Home Page
+    </h3>
+    <h3>
+      Dashboard
+    </h3>
+    {{#if logged_out}}
+    <nav>
+      <button class="btn" id="login">Log in</button>
+    </nav>
+    {{/if}}
+    <h3>
+      Log In
+    </h3>
   </header>
   <main class="container container-fluid mt-5">
     {{{ body }}}
