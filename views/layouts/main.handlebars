@@ -9,40 +9,44 @@
 </head>
 
 <body>
+
   <header class="display-flex justify-space-between align-center p-2">
     <h1>
-     Fantasy Football
+      Fantasy Football
     </h1>
-    {{#if logged_in}}
     <nav>
-      <button class="btn" id="logout">Log Out</button>
+      <ul>
+        {{#if logged_in}}
+        <li><a href="/">Home</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/logout">Log Out</a></li>
+        {{/if}}
+
+
+
+
+        {{#if logged_out}}
+        {{!--
+        <button class="btn" id="login">Log in</button> --}}
+        <li><a href="/login">Log In</a></li>
+        {{/if}}
+
+      </ul>
     </nav>
-    {{/if}}
-    <h3>
-      Home Page
-    </h3>
-    <h3>
-      Dashboard
-    </h3>
-    {{#if logged_out}}
-    <nav>
-      <button class="btn" id="login">Log in</button>
-    </nav>
-    {{/if}}
-    <h3>
-      Log In
-    </h3>
   </header>
   <main class="container container-fluid mt-5">
     {{{ body }}}
   </main>
   <footer>
-      
+
   </footer>
 
   {{#if logged_in}}
   <script src="/js/logout.js"></script>
   {{/if}}
+
+
+
 </body>
 
 </html>
