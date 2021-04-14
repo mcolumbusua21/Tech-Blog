@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Post, Comment, User } = require('../../models')
-const checkAuth = require('../../utils/checkAuth')
+const checkAuth = require('../../utils/auth')
 
 router.post('/', checkAuth, async (req, res) => {
     req.body.user_id = req.session.userId;

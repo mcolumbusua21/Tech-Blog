@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { User, Comment, Post } = require('../models');
-const checkAuth = require('../utils/checkAuth');
-const prevAuth = require('../utils/prevAuth')
+const checkAuth = require('../utils/auth');
+const prevAuth = require('../utils/stopAuth')
 const sequlize = require('../config/connection')
 
 router.get('/', async (req, res) => {
