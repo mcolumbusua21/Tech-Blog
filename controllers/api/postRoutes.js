@@ -8,7 +8,17 @@ router.post('/', checkAuth, async (req, res) => {
     res.json(newPost.id)
 })
 
+router.put('/', checkAuth, async (req, res) => {
+    const updatedPost = await Post.update(req.body, {
+        where:
+        {
+            id: req.body.id
+        }
+    })
+    res.json(updatedPost)
+})
+
 router.delete('/:id', checkAuth, async (req, res) => {
-    const deletePost = await Post.destroy({ where ( id: req.params.id )})
+    const deletePost = await Post.destroy({ where: { id: req.params.id } })
     res.json(deletePost)
 })
