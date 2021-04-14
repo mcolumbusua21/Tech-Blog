@@ -1,31 +1,34 @@
 const router = require('express').Router();
-const { User } = require('../models');
-const withAuth = require('../utils/auth');
+const { User, Comment, Post } = require('../models');
+const checkAuth = require('../utils/checkAuth');
+const prevAuth = require('../utils/prevAuth')
+const sequlize = require('../config/connection')
 
-router.get('/', withAuth, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const userData = await User.findAll({
-      attributes: { exclude: ['password'] },
-      order: [['name', 'ASC']],
+    const postData = await Post.findAll({
+      include: [{
+        model: User,
+        attributes: ['id', 'user_name'],
+      }],
+      order: sequlize.literal('post.created_at DESC'),
+      limit: 10,
     });
 
-    const users = userData.map((project) => project.get({ plain: true }));
-
-    res.render('homepage', {
-      users,
-      logged_in: req.session.logged_in,
-    });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+    const clearData = postData.map(post => post.get());
+    for (let i = 0; i < clearData.length; i++) {
+      const user = JSON.parse(JSON.stringify(clearData[i].user))
+      clearData[i].userName = user.user_name;
+    }
+    res.render('homepage', { cleanPostData, logged_in: req.session.userId? true:false })
+}});
 
 router.get('/signup', (req, res) => {
 
   res.render('signup')
 })
 
-router.get('/login', (req, res) => {
+router.get('/login', prevAuth, (req, res) => {
   if (req.session.logged_in) {
     res.redirect('/');
     return;
