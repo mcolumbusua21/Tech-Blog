@@ -67,4 +67,11 @@ router.post('/logout', (req, res) => {
   }
 });
 
+router.put('/:id', async (req, res) => {
+  const updatedUserData = await User.update(req.body, { where: { id: req.params.id } })
+})
+router.delete('/:id', async (req, res) => {
+  const deleteUser  = await User.destroy({ where: { id: req.params.id } })
+})
+
 module.exports = router;
