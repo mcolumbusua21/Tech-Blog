@@ -2,9 +2,13 @@ const router = require('express').Router();
 const { User } = require('../../models');
 
 
-router.post('/', (req, res)=> {
+router.get('/', async (req, res)=> {
   console.log('RECEIVED POST REQUEST AT ?/API/USERS')
   console.log('INCOMING REQUEST=>', req.body)
+  const userData = await User.findAll({
+    attributes: ('id', 'user_name')
+  })
+  res.json(userData)
   
 })
 
@@ -21,16 +25,16 @@ router.post("/signup", async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    const userData = await User.findOne({ where: { email: req.body.email } });
+    const dbUserData = await User.findOne({ where: { email: req.body.email } });
 
-    if (!userData) {
+    if (!dbUserData) {
       res
         .status(400)
         .json({ message: 'Incorrect email or password, please try again' });
       return;
     }
 
-    const validPassword = await userData.checkPassword(req.body.password);
+    const validPassword = await dbUserData.checkPassword(req.body.password);
 
     if (!validPassword) {
       res
@@ -40,7 +44,7 @@ router.post('/login', async (req, res) => {
     }
 
     req.session.save(() => {
-      req.session.user_id = userData.id;
+      req.session.user_id = dbUserData.id;
       req.session.logged_in = true;
       
       res.json({ user: userData, message: 'You are now logged in!' });
