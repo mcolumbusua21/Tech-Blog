@@ -17,3 +17,7 @@ const postData = [
     user_id: 3,
   },
 ];
+const postSeeds = () => Post.bulkCreate(userData, { individualHooks: true })
+
+
+module.exports = postSeeds;
