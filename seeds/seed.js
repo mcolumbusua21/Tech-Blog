@@ -8,7 +8,7 @@ const seedAll = async () => {
   await sequelize.sync ({ force: true });
   await userSeeds();
   await postSeeds();
-  await commentSeeds();
+  // await commentSeeds();
   
   process.exit(0);
 }

@@ -7,20 +7,21 @@ const sequlize = require('../config/connection')
 router.get('/', async (req, res) => {
   try {
     const postData = await Post.findAll({
-      include: [{
-        model: User,
-        attributes: ['id', 'user_name'],
-      }],
-      order: sequlize.literal('post.created_at DESC'),
-      limit: 10,
+      include: [User],
+      // order: sequlize.literal('post.created_at DESC'),
+      // limit: 10,
     });
 
-    const clearData = postData.map(post => post.get());
-    for (let i = 0; i < clearData.length; i++) {
-      const user = JSON.parse(JSON.stringify(clearData[i].user))
-      clearData[i].userName = user.user_name;
-    }
-    res.render('homepage', { cleanPostData, logged_in: req.session.userId? true:false })
+    const clearData = postData.map(post => post.get({ plain: true}));
+    // for (let i = 0; i < clearData.length; i++) {
+    //   const user = JSON.parse(JSON.stringify(clearData[i].user))
+    //   clearData[i].userName = user.user_name;
+    // }
+
+    console.log(clearData)
+    res.render('homepage', { clearData })
+}catch(err){
+  res.status(500).json(err)
 }});
 
 router.get('/signup', (req, res) => {

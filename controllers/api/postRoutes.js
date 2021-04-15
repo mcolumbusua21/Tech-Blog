@@ -22,3 +22,5 @@ router.delete('/:id', checkAuth, async (req, res) => {
     const deletePost = await Post.destroy({ where: { id: req.params.id } })
     res.json(deletePost)
 })
+
+module.exports = router;
